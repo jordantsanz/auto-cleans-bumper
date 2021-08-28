@@ -10,13 +10,13 @@ export const sendEmail = (emailInfo, targetDate) => {
     html: `<p> ${emailInfo.body} </p>`,
   };
   console.log(`sending the email to ${emailInfo.to} about cleaning ${emailInfo.body} on ${targetDate}`);
-  //   sgMail
-  //     .send(msg)
-  //     .then(() => {}, (error) => {
-  //       console.error(error);
+  sgMail
+    .send(msg)
+    .then(() => {}, (error) => {
+      console.error(error);
 
-//       if (error.response) {
-//         console.error(error.response.body);
-//       }
-//     });
+      if (error.response) {
+        console.error(error.response.body);
+      }
+    });
 };
