@@ -48,7 +48,7 @@ export const findDailyCleans = (data, namesAndEmails) => {
   });
 
   if (!foundKey) {
-    console.log('Date that is not on sheet. Bye! ');
+    console.log('Date that is not on sheet. ');
     return;
   }
 
@@ -86,18 +86,18 @@ export const readInEmails = async (fs, csv, results) => {
   const readable = fs.createReadStream('src/namesAndEmails.csv');
 
   readable.on('error', (err) => {
-    console.log(err);
+    console.error(err);
     error = true;
   });
 
   const writeable = readable.pipe(csv());
   writeable.on('error', (err) => {
-    console.log(err);
+    console.error(err);
     error = true;
   });
 
   if (error) {
-    console.log('There was an error reading the file. Are you sure you put it in the right place?');
+    console.error('There was an error reading the file. Are you sure you put it in the right place?');
   }
 
   writeable.on('data', (data) => { return namesAndEmails.push(data); })
@@ -106,24 +106,28 @@ export const readInEmails = async (fs, csv, results) => {
     });
 };
 
-export const readInFile = async (fs, csv) => {
+export const readInFile = async (fs, csv, filename) => {
+  if (!filename) {
+    console.error('No filename given.');
+    return;
+  }
   const results = [];
   let error = false;
-  const readable = fs.createReadStream('src/duties2.csv');
+  const readable = fs.createReadStream(`src/${filename}`);
 
   readable.on('error', (err) => {
-    console.log(err);
+    console.error(err);
     error = true;
   });
 
   const writeable = readable.pipe(csv());
   writeable.on('error', (err) => {
-    console.log(err);
+    console.error(err);
     error = true;
   });
 
   if (error) {
-    console.log('There was an error reading the file. Are you sure you put it in the right place?');
+    console.error('There was an error reading the file. Are you sure you put it in the right place?');
   }
 
   writeable.on('data', (data) => { return results.push(data); })
